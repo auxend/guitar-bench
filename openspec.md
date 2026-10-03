@@ -110,8 +110,11 @@ When executing bench setups, have the following precision tools ready:
 ## 5. Guitar Setup Lab App Specification
 
 ### 5.1 Architecture
-- **Format:** Single-file standalone HTML/CSS/JS application (`guitar-bench-app.html`).
-- **Persistence:** Browser `localStorage` (key: `volt_guitar_bench_fleet_v1`) with full JSON Export and Import capabilities.
+- **Format:** Single-file standalone HTML/CSS/JS application (`index.html` / `guitar-bench-app.html`).
+- **Persistence:** Multi-tiered hybrid storage:
+  - **Direct Disk Sync:** File System Access API (`showOpenFilePicker` / `showSaveFilePicker`) for zero-server two-way syncing with repository `fleet.json`.
+  - **Browser Cache:** Automatic fallback and local persistence via `localStorage` (`guitar_bench_fleet_v1`).
+  - **Universal Portability:** Standard JSON Export and Import for Safari, Firefox, and offline airgapped devices.
 - **Dependency Policy:** 100% self-contained (zero CDNs, zero NPM packages).
 
 ### 5.2 Core Capabilities

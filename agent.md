@@ -35,8 +35,12 @@ When the user presents a setup complaint, run this triage:
 ---
 
 ## 3. Linked Workspace Resources
-- **OpenSpec Registry:** [`guitar-bench-openspec.md`](file:///Users/auxend/code/volt/guitar-bench-openspec.md)
-- **Visual HTML Guide:** [`fender-offset-setup-guide.html`](file:///Users/auxend/code/volt/fender-offset-setup-guide.html)
-- **Bench Skill:** [`.agents/skills/guitar-setup-and-diagnostics/SKILL.md`](file:///Users/auxend/code/volt/.agents/skills/guitar-setup-and-diagnostics/SKILL.md)
-- **Protocol Rule:** [`.agents/rules/guitar-tech-protocol.md`](file:///Users/auxend/code/volt/.agents/rules/guitar-tech-protocol.md)
-- **Bench Log Template:** [`.agents/skills/guitar-setup-and-diagnostics/references/bench-sheet-template.md`](file:///Users/auxend/code/volt/.agents/skills/guitar-setup-and-diagnostics/references/bench-sheet-template.md)
+- **App & Dashboard:** [`index.html`](file:///Users/auxend/code/guitar-bench/index.html)
+- **Fleet Database:** [`fleet.json`](file:///Users/auxend/code/guitar-bench/fleet.json)
+- **OpenSpec Registry:** [`openspec.md`](file:///Users/auxend/code/guitar-bench/openspec.md)
+- **Visual HTML Guides:**
+  - [`fender-offset-setup-guide.html`](file:///Users/auxend/code/guitar-bench/fender-offset-setup-guide.html)
+  - [`guitar-baseline-capture-guide.html`](file:///Users/auxend/code/guitar-bench/guitar-baseline-capture-guide.html)
+- **Bench Skill:** [`.agents/skills/guitar-setup-and-diagnostics/SKILL.md`](file:///Users/auxend/code/guitar-bench/.agents/skills/guitar-setup-and-diagnostics/SKILL.md)
+- **Protocol Rule:** [`.agents/rules/guitar-tech-protocol.md`](file:///Users/auxend/code/guitar-bench/.agents/rules/guitar-tech-protocol.md)
+- **Bench Log Template:** [`.agents/skills/guitar-setup-and-diagnostics/references/bench-sheet-template.md`](file:///Users/auxend/code/guitar-bench/.agents/skills/guitar-setup-and-diagnostics/references/bench-sheet-template.md)

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Volt Guitar Bench Lab — Setup & Delta Analyzer</title>
+  <title>Guitar Bench Lab — Setup & Delta Analyzer</title>
   <style>
     :root {
       --bg-primary: #0b0f17;
@@ -76,6 +76,63 @@
       display: flex;
       gap: 0.5rem;
       flex-wrap: wrap;
+      align-items: center;
+    }
+
+    /* Sync Status Badge */
+    .sync-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.45rem;
+      padding: 0.3rem 0.75rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      border: 1px solid var(--border-color);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+      user-select: none;
+    }
+    .sync-badge:hover {
+      border-color: var(--border-accent);
+      color: var(--text-main);
+      background: rgba(255, 255, 255, 0.08);
+    }
+    .sync-badge .dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--text-muted);
+      display: inline-block;
+      transition: all 0.2s ease;
+    }
+    .sync-badge.linked {
+      border-color: rgba(34, 197, 94, 0.4);
+      background: rgba(34, 197, 94, 0.1);
+      color: #4ade80;
+    }
+    .sync-badge.linked .dot {
+      background: #22c55e;
+      box-shadow: 0 0 8px rgba(34, 197, 94, 0.75);
+    }
+    .sync-badge.syncing {
+      border-color: rgba(56, 189, 248, 0.4);
+      background: rgba(56, 189, 248, 0.1);
+      color: var(--accent-cyan);
+    }
+    .sync-badge.syncing .dot {
+      background: var(--accent-cyan);
+      box-shadow: 0 0 8px rgba(56, 189, 248, 0.75);
+    }
+    .sync-badge.error {
+      border-color: rgba(244, 63, 94, 0.4);
+      background: rgba(244, 63, 94, 0.1);
+      color: var(--accent-rose);
+    }
+    .sync-badge.error .dot {
+      background: var(--accent-rose);
     }
 
     /* Buttons */
@@ -433,14 +490,22 @@
     <!-- Top Header -->
     <header>
       <div class="header-text">
-        <h1>Volt Guitar Bench Lab</h1>
+        <div style="display:flex; align-items:center; gap:0.75rem; margin-bottom:0.35rem; flex-wrap:wrap;">
+          <h1>Guitar Bench Lab</h1>
+          <div id="syncBadge" class="sync-badge" onclick="linkLocalFile()" title="Click to link directly to fleet.json for two-way disk sync">
+            <span class="dot"></span>
+            <span id="syncText">Storage: Browser Cache</span>
+          </div>
+        </div>
         <p>Input, preserve, compare, and reverse-engineer your guitar setups.</p>
       </div>
       <div class="header-actions">
         <button class="primary" onclick="openAddModal()">+ New Guitar Profile</button>
-        <button onclick="exportJSON()">📥 Export JSON</button>
-        <button onclick="document.getElementById('importFile').click()">📤 Import</button>
-        <input type="file" id="importFile" style="display:none" onchange="importJSON(event)">
+        <button id="btnLinkFile" onclick="linkLocalFile()" title="Link directly to a local fleet.json file using File System Access API">📁 Link fleet.json</button>
+        <button id="btnSaveAs" onclick="saveAsLocalFile()" title="Save and link to a new or chosen file on disk">💾 Save As...</button>
+        <button onclick="exportJSON()" title="Download a copy of your fleet JSON">📥 Export</button>
+        <button onclick="document.getElementById('importFile').click()" title="Import a JSON file">📤 Import</button>
+        <input type="file" id="importFile" style="display:none" accept=".json" onchange="importJSON(event)">
       </div>
     </header>
 
@@ -722,10 +787,50 @@
       }
     ];
 
-    let fleet = JSON.parse(localStorage.getItem('volt_guitar_bench_fleet_v1')) || DEFAULT_FLEET;
+    let linkedFileHandle = null;
+    let storedFleet = localStorage.getItem('guitar_bench_fleet_v1') || localStorage.getItem('volt_guitar_bench_fleet_v1');
+    let fleet = storedFleet ? JSON.parse(storedFleet) : DEFAULT_FLEET;
 
-    function saveToStorage() {
-      localStorage.setItem('volt_guitar_bench_fleet_v1', JSON.stringify(fleet));
+    function updateSyncUI(status, message) {
+      const badge = document.getElementById('syncBadge');
+      const text = document.getElementById('syncText');
+      if (!badge || !text) return;
+
+      if (status === 'linked') {
+        badge.className = 'sync-badge linked';
+        text.textContent = message || `Synced: ${linkedFileHandle?.name || 'fleet.json'}`;
+        badge.title = 'Direct disk sync active. Edits automatically write straight to ' + (linkedFileHandle?.name || 'fleet.json');
+      } else if (status === 'syncing') {
+        badge.className = 'sync-badge syncing';
+        text.textContent = message || 'Saving to disk...';
+      } else if (status === 'error') {
+        badge.className = 'sync-badge error';
+        text.textContent = message || 'Sync Error';
+      } else {
+        badge.className = 'sync-badge unlinked';
+        text.textContent = 'Storage: Browser Cache';
+        badge.title = 'Saved in browser cache. Click "Link fleet.json" to sync directly with your file on disk.';
+      }
+    }
+
+    async function saveToStorage() {
+      // 1. Always persist to localStorage
+      localStorage.setItem('guitar_bench_fleet_v1', JSON.stringify(fleet));
+
+      // 2. Direct disk sync via File System Access API if linked
+      if (linkedFileHandle) {
+        try {
+          updateSyncUI('syncing', `Saving to ${linkedFileHandle.name}...`);
+          const writable = await linkedFileHandle.createWritable();
+          await writable.write(JSON.stringify(fleet, null, 2));
+          await writable.close();
+          const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+          updateSyncUI('linked', `Synced: ${linkedFileHandle.name} (${time})`);
+        } catch (err) {
+          console.error("Failed to write to linked file:", err);
+          updateSyncUI('error', `Write failed (click to re-link)`);
+        }
+      }
     }
 
     // Tab Switching
@@ -1016,12 +1121,81 @@
       renderFleet();
     }
 
-    // JSON Export / Import
+    // File System Access API: Link existing local file (e.g. fleet.json)
+    async function linkLocalFile() {
+      if ('showOpenFilePicker' in window) {
+        try {
+          const [handle] = await window.showOpenFilePicker({
+            types: [{
+              description: 'JSON Fleet File',
+              accept: { 'application/json': ['.json'] }
+            }],
+            multiple: false
+          });
+
+          const file = await handle.getFile();
+          const content = await file.text();
+          const parsed = JSON.parse(content);
+
+          if (Array.isArray(parsed)) {
+            fleet = parsed;
+            linkedFileHandle = handle;
+            await saveToStorage();
+            renderFleet();
+            updateSyncUI('linked');
+            alert(`Linked to "${handle.name}". Any changes you make will now auto-save directly to this file on disk!`);
+          } else {
+            alert('The selected file does not contain a valid guitar fleet array.');
+          }
+        } catch (err) {
+          if (err.name !== 'AbortError') {
+            console.error(err);
+            alert('Could not link file: ' + err.message);
+          }
+        }
+      } else {
+        // Fallback for Safari / Firefox
+        alert('Direct disk sync (File System Access API) is supported in Chrome, Edge, Brave, and Chromium.\n\nOn Safari or Firefox, you can use the Import and Export buttons to work with fleet.json!');
+        document.getElementById('importFile').click();
+      }
+    }
+
+    // File System Access API: Save As to a new or chosen file
+    async function saveAsLocalFile() {
+      if ('showSaveFilePicker' in window) {
+        try {
+          const handle = await window.showSaveFilePicker({
+            suggestedName: 'fleet.json',
+            types: [{
+              description: 'JSON Fleet File',
+              accept: { 'application/json': ['.json'] }
+            }]
+          });
+
+          const writable = await handle.createWritable();
+          await writable.write(JSON.stringify(fleet, null, 2));
+          await writable.close();
+
+          linkedFileHandle = handle;
+          updateSyncUI('linked');
+          alert(`Saved and linked to "${handle.name}". Edits will now write directly to this file.`);
+        } catch (err) {
+          if (err.name !== 'AbortError') {
+            console.error(err);
+            alert('Could not save file: ' + err.message);
+          }
+        }
+      } else {
+        exportJSON();
+      }
+    }
+
+    // JSON Export / Import Fallbacks
     function exportJSON() {
       const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(fleet, null, 2));
       const downloadAnchor = document.createElement('a');
       downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", "volt_guitar_fleet_setup.json");
+      downloadAnchor.setAttribute("download", "fleet.json");
       document.body.appendChild(downloadAnchor);
       downloadAnchor.click();
       downloadAnchor.remove();
@@ -1031,23 +1205,47 @@
       const file = event.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = function(e) {
+      reader.onload = async function(e) {
         try {
           const parsed = JSON.parse(e.target.result);
           if (Array.isArray(parsed)) {
             fleet = parsed;
-            saveToStorage();
+            await saveToStorage();
             renderFleet();
             alert("Guitar fleet successfully imported!");
+          } else {
+            alert("Invalid JSON format: Expected an array of guitar profiles.");
           }
         } catch (err) {
-          alert("Invalid JSON file.");
+          alert("Invalid JSON file: " + err.message);
         }
       };
       reader.readAsText(file);
+      event.target.value = '';
     }
 
+    // Auto-fetch fleet.json when served over HTTP/HTTPS if local cache has no customizations
+    async function checkServerFleet() {
+      if (!storedFleet && (location.protocol === 'http:' || location.protocol === 'https:')) {
+        try {
+          const resp = await fetch('fleet.json');
+          if (resp.ok) {
+            const data = await resp.json();
+            if (Array.isArray(data) && data.length > 0) {
+              fleet = data;
+              localStorage.setItem('guitar_bench_fleet_v1', JSON.stringify(fleet));
+              renderFleet();
+            }
+          }
+        } catch (e) {
+          // Ignore offline / local fetch errors
+        }
+      }
+    }
+    checkServerFleet();
+
     // Initialize
+    updateSyncUI('unlinked');
     renderFleet();
   </script>
 </body>

@@ -1,0 +1,50 @@
+[
+  {
+    "id": "jm-golden",
+    "name": "My '62 Jazzmaster (The Magic One)",
+    "role": "Benchmark",
+    "scale": 25.5,
+    "strings": "10-46 D'Addario",
+    "relief": 0.004,
+    "shim": 0.0,
+    "nutE": 0.012,
+    "nute": 0.008,
+    "actE": 0.046,
+    "acte": 0.038,
+    "bridge": "Slammed to Body (Mustang/Staytrem)",
+    "breakAngle": 9.5,
+    "notes": "Slammed bridge, nuts filed down perfectly. Plays like butter with zero fatigue."
+  },
+  {
+    "id": "jag-buzzing",
+    "name": "Fender Jaguar (Rattling Bridge)",
+    "role": "Remediation",
+    "scale": 24.0,
+    "strings": "9-42 Fender Nickel",
+    "relief": 0.011,
+    "shim": 0.0,
+    "nutE": 0.022,
+    "nute": 0.018,
+    "actE": 0.062,
+    "acte": 0.054,
+    "bridge": "Stock Vintage Threaded Saddles",
+    "breakAngle": 6.5,
+    "notes": "Bridge rattles like crazy. Action feels stiff in cowboy chords, floppy strings."
+  },
+  {
+    "id": "strat-vintage",
+    "name": "Fender Stratocaster (Vintage Reissue)",
+    "role": "Active",
+    "scale": 25.5,
+    "strings": "10-46 Ernie Ball",
+    "relief": 0.009,
+    "shim": 0.0,
+    "nutE": 0.020,
+    "nute": 0.016,
+    "actE": 0.055,
+    "acte": 0.048,
+    "bridge": "Vintage 6-screw Synchronized Tremolo",
+    "breakAngle": 12.0,
+    "notes": "Factory stock. Plays okay, but barre chords take way more effort than the Jazzmaster."
+  }
+]
