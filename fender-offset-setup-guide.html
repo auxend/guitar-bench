@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Masterclass: Fender Offset & Strat Setup Geometry</title>
+  <style>
+    :root {
+      --bg-primary: #0b0f17;
+      --bg-secondary: #131b26;
+      --bg-card: #1a2332;
+      --bg-card-hover: #222f42;
+      --border-color: #273549;
+      --border-accent: rgba(56, 189, 248, 0.35);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent-cyan: #38bdf8;
+      --accent-amber: #fbbf24;
+      --accent-emerald: #34d399;
+      --accent-rose: #f43f5e;
+      --accent-purple: #c084fc;
+      --tag-bg: rgba(56, 189, 248, 0.12);
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      padding: 3rem 1.25rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 960px;
+      width: 100%;
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 3.5rem;
+      text-align: center;
+      padding: 2.75rem 1.5rem;
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.14) 0%, rgba(19, 27, 38, 0.4) 70%, transparent 100%);
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+    }
+
+    .badges {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-radius: 9999px;
+      background: var(--tag-bg);
+      color: var(--accent-cyan);
+      border: 1px solid var(--border-accent);
+    }
+
+    .badge-amber {
+      background: rgba(251, 191, 36, 0.12);
+      color: var(--accent-amber);
+      border-color: rgba(251, 191, 36, 0.35);
+    }
+
+    .badge-emerald {
+      background: rgba(52, 211, 153, 0.12);
+      color: var(--accent-emerald);
+      border-color: rgba(52, 211, 153, 0.35);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff 40%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    /* Sections */
+    section {
+      margin-bottom: 3.5rem;
+    }
+
+    h2 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.6rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      margin-bottom: 1.15rem;
+      color: #cbd5e1;
+    }
+
+    strong {
+      color: #ffffff;
+    }
+
+    /* Cards & Grids */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-title.cyan { color: var(--accent-cyan); }
+    .card-title.amber { color: var(--accent-amber); }
+    .card-title.emerald { color: var(--accent-emerald); }
+    .card-title.rose { color: var(--accent-rose); }
+    .card-title.purple { color: var(--accent-purple); }
+
+    /* Callout Boxes */
+    .callout {
+      border-left: 4px solid var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.07);
+      border-radius: 0 10px 10px 0;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      border-top: 1px solid rgba(56, 189, 248, 0.15);
+      border-right: 1px solid rgba(56, 189, 248, 0.15);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+    }
+
+    .callout.amber {
+      border-left-color: var(--accent-amber);
+      background: rgba(251, 191, 36, 0.07);
+      border-color: rgba(251, 191, 36, 0.15);
+      border-left: 4px solid var(--accent-amber);
+    }
+
+    .callout.rose {
+      border-left-color: var(--accent-rose);
+      background: rgba(244, 63, 94, 0.07);
+      border-color: rgba(244, 63, 94, 0.15);
+      border-left: 4px solid var(--accent-rose);
+    }
+
+    .callout-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .callout.amber .callout-title { color: var(--accent-amber); }
+    .callout.cyan .callout-title { color: var(--accent-cyan); }
+    .callout.rose .callout-title { color: var(--accent-rose); }
+
+    /* Tables */
+    .table-container {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background: var(--bg-card);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+
+    th, td {
+      padding: 0.9rem 1.15rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      background: var(--bg-secondary);
+      color: var(--accent-cyan);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    code {
+      font-family: var(--font-mono);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--accent-cyan);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+
+    /* Diagram visual block */
+    .diagram-container {
+      background: #0f1622;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .diagram-title {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    svg text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    /* Steps list */
+    .steps-list {
+      list-style: none;
+      counter-reset: step-counter;
+      margin: 1.5rem 0;
+    }
+
+    .steps-list li {
+      counter-increment: step-counter;
+      margin-bottom: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem 1.25rem 4rem;
+      position: relative;
+    }
+
+    .steps-list li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 1.25rem;
+      top: 1.25rem;
+      width: 2rem;
+      height: 2rem;
+      background: var(--accent-cyan);
+      color: #0b0f17;
+      font-weight: 800;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+    }
+
+    .step-heading {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Footer */
+    footer {
+      text-align: center;
+      padding-top: 3rem;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <header>
+      <div class="badges">
+        <span class="badge">Luthier Masterclass</span>
+        <span class="badge badge-amber">Offset Physics</span>
+        <span class="badge badge-emerald">Geometry & Specs</span>
+      </div>
+      <h1>Fender Offset & Strat Setup Geometry</h1>
+      <p class="subtitle">
+        Deconstructing the "slammed" Jazzmaster, solving the rattling Jaguar, and demystifying the Nut-to-Bridge relationship once and for all.
+      </p>
+    </header>
+
+    <!-- SECTION 1: The Nut vs Bridge Myth -->
+    <section>
+      <h2><span>01</span> The Nut vs. Bridge Ratio (The "Zero Fret" Principle)</h2>
+      <p>
+        One of the most persistent setup myths is that cutting nut slots low will cause higher-register frets to buzz, or that string height follows an unbroken rigid line from nut to bridge. Here is how guitar geometry actually works:
+      </p>
+
+      <div class="diagram-container">
+        <div class="diagram-title">
+          <span>Figure 1: The Circuit Breaker Effect</span>
+          <span>PHYSICS OF FRETTING</span>
+        </div>
+        <svg viewBox="0 0 850 170" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <!-- Fretboard line -->
+          <rect x="50" y="90" width="750" height="24" rx="3" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+          <!-- Frets -->
+          <line x1="130" y1="80" x2="130" y2="90" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+          <text x="125" y="74" fill="#94a3b8">Fret 1</text>
+          <line x1="220" y1="80" x2="220" y2="90" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+          <text x="215" y="74" fill="#94a3b8">Fret 2</text>
+          <line x1="310" y1="80" x2="310" y2="90" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+          <text x="305" y="74" fill="#94a3b8">Fret 3</text>
+          <line x1="500" y1="80" x2="500" y2="90" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+          <text x="492" y="74" fill="#94a3b8">Fret 7</text>
+          <line x1="680" y1="80" x2="680" y2="90" stroke="#94a3b8" stroke-width="3" stroke-linecap="round"/>
+          <text x="670" y="74" fill="#94a3b8">Fret 12</text>
+          <!-- Nut -->
+          <rect x="45" y="55" width="16" height="40" rx="2" fill="#f8fafc" stroke="#94a3b8"/>
+          <text x="35" y="45" fill="#f8fafc" font-weight="bold">NUT</text>
+          <!-- Bridge Saddle -->
+          <rect x="780" y="50" width="14" height="45" rx="2" fill="#38bdf8"/>
+          <text x="765" y="42" fill="#38bdf8" font-weight="bold">BRIDGE</text>
+          <!-- Open String (Dotted) -->
+          <path d="M 61 70 Q 420 62 780 65" fill="none" stroke="#64748b" stroke-dasharray="4,4" stroke-width="2"/>
+          <text x="380" y="52" fill="#64748b">Open String Vibration Path (Nut in circuit)</text>
+          <!-- Finger down at fret 3 -->
+          <circle cx="310" cy="80" r="5" fill="#f43f5e"/>
+          <path d="M 310 80 L 780 65" fill="none" stroke="#38bdf8" stroke-width="2.5"/>
+          <text x="420" y="140" fill="#38bdf8" font-weight="bold">Fretted String Path: Nut is 100% bypassed!</text>
+        </svg>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-title cyan">⚡ The Nut is a "Zero Fret"</div>
+          <p>
+            The nut only dictates string height for <strong>open strings</strong> and affects feel for the first 3 frets. The instant you fret a note anywhere on the neck, the nut is removed from the equation.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title amber">🏭 Why Factory Nuts are Stiff</div>
+          <p>
+            Fender ships factory guitars with conservatively high nut slots so guitars don't buzz in dry or humid retail stores. It protects warranty claims, but leaves the instrument feeling stiff.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title emerald">🎯 The Cowboy Chord Benefit</div>
+          <p>
+            When a tech files the slots right down to the threshold, your first-position F-barre chord requires almost zero hand force, and low open chords (D, A, C) stop pulling sharp.
+          </p>
+        </div>
+      </div>
+
+      <div class="callout cyan">
+        <div class="callout-title">The 5-Second Capo Diagnostic Test</div>
+        <p>
+          Clamp a capo onto the <strong>1st fret</strong> of your Jaguar or Strats. Play them now: does the guitar suddenly feel 10x easier to fret? Do barre chords become silky smooth? 
+          <strong>If yes, your bridge and relief are likely fine, but your nut slots are cut way too high from the factory.</strong>
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 2: Why the Jazzmaster Works vs The Jaguar Buzzes -->
+    <section>
+      <h2><span>02</span> The Offset Paradox: Jazzmaster vs. Jaguar</h2>
+      <p>
+        You observed that your Jazzmaster has its bridge slammed down and plays like a dream, while your Jaguar bridge rattles and buzzes. Why can't you just slam the Jaguar bridge down too?
+      </p>
+
+      <div class="diagram-container">
+        <div class="diagram-title">
+          <span>Figure 2: Break Angle Geometry (The Downward Vector)</span>
+          <span>CRITICAL OFFSET MECHANICS</span>
+        </div>
+        <svg viewBox="0 0 850 210" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <!-- Body Line -->
+          <rect x="50" y="150" width="750" height="15" fill="#1e293b"/>
+          <!-- Bridge Posts -->
+          <rect x="360" y="90" width="28" height="60" rx="3" fill="#38bdf8"/>
+          <text x="340" y="80" fill="#38bdf8" font-weight="bold">Bridge Saddle</text>
+          <!-- Vibrato Tailpiece -->
+          <rect x="680" y="140" width="70" height="15" rx="3" fill="#64748b"/>
+          <text x="680" y="130" fill="#94a3b8">Trem Tailpiece</text>
+          <!-- Fretboard / Neck -->
+          <polygon points="50,110 240,110 240,150 50,150" fill="#334155"/>
+          <text x="110" y="135" fill="#f8fafc">Neck Plane</text>
+
+          <!-- Break Angle String Path A: Slammed (Shallow Break Angle) -->
+          <path d="M 50 102 L 374 105 L 700 145" fill="none" stroke="#f43f5e" stroke-width="2" stroke-dasharray="5,5"/>
+          <text x="500" y="115" fill="#f43f5e" font-weight="bold">Slammed Bridge: 5° Break Angle (BUZZ ZONE)</text>
+
+          <!-- Break Angle String Path B: Shimmed Neck + High Bridge -->
+          <rect x="380" y="45" width="28" height="105" rx="3" fill="#34d399" opacity="0.8"/>
+          <path d="M 50 85 L 394 50 L 700 145" fill="none" stroke="#34d399" stroke-width="3"/>
+          <text x="460" y="65" fill="#34d399" font-weight="bold">Shimmed Neck + Elevated Bridge: 15° Break Angle (SOLID)</text>
+
+          <!-- Vector arrows -->
+          <line x1="394" y1="50" x2="394" y2="85" stroke="#34d399" stroke-width="3" marker-end="url(#arrow)"/>
+          <text x="405" y="80" fill="#34d399">Heavy Downward Vector</text>
+        </svg>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-title cyan">Jazzmaster (25.5" Scale)</div>
+          <ul style="padding-left: 1.25rem; color: #cbd5e1; font-size: 0.95rem;">
+            <li>Higher natural string tension (approx. 15–20% tighter than Jaguar).</li>
+            <li>String vibrates in a tighter, narrower arc.</li>
+            <li>Can tolerate lower downward force before buzzing.</li>
+            <li>If neck pocket angle is dead flat, the bridge can be slammed while maintaining adequate tension.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <div class="card-title amber">Jaguar (24" Scale)</div>
+          <ul style="padding-left: 1.25rem; color: #cbd5e1; font-size: 0.95rem;">
+            <li>Shorter string length = loose, "floppy" string tension.</li>
+            <li>Strings have a broad elliptical vibration envelope that easily clatters against frets/saddles.</li>
+            <li><strong>Slamming the bridge flattens the break angle</strong> to almost zero, destroying string coupling.</li>
+            <li>Result: grub screws shake loose, saddles rattle, strings jump grooves.</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="callout rose">
+        <div class="callout-title">Why Slamming the Jaguar Bridge Will Make It Worse</div>
+        <p>
+          On a vintage offset vibrato system, the bridge is kept stable purely by the <strong>downward pressure</strong> of the strings forcing the bridge assembly down into the brass body thimbles. 
+          If you slam the Jaguar bridge down, you reduce that break angle to single digits. With the Jaguar's already low string tension, the saddles will violently rattle and buzz with every pick stroke.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 3: The Four Pillars of Ultra-Low Action -->
+    <section>
+      <h2><span>03</span> The 4 Pillars of a "Master Dialed" Setup</h2>
+      <p>
+        The reason that Jazzmaster feels like a custom shop piece of art is because four mechanical parameters were made collinear:
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-title purple">1. Nearly Dead-Flat Relief</div>
+          <p>
+            Excess forward bow forces you to raise the bridge to stop frets 1–5 from buzzing, which leaves high action at frets 7–12. Ultra-low setups require near-zero relief (<strong>0.004"–0.006"</strong>).
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title emerald">2. Fret Level & Fall-Away</div>
+          <p>
+            When action is slammed, a single high fret by 0.001" will choke a note. Master techs level frets under string tension simulators and build <strong>upper-register fall-away</strong> into frets 15–21.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title cyan">3. Nut Slots to the Floor</div>
+          <p>
+            Nut slots are filed so the bottom of the string is sitting a hair above the 1st fret (0.012"–0.016" on Low E; 0.008"–0.010" on High E). It mimics a zero-fret without open-string back-buzz.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title amber">4. Matching Radius Geometry</div>
+          <p>
+            The individual saddle heights must precisely mirror the fretboard radius (7.25", 9.5", or 12"). If the D & G saddles are flat relative to the A & B, center strings will buzz or choke.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Step-by-Step T-R-A-I-N Protocol -->
+    <section>
+      <h2><span>04</span> The Professional Bench Sequence (T-R-A-I-N)</h2>
+      <p>
+        To dial in your Jaguar and Strats without guesswork, always execute adjustments in this exact order:
+      </p>
+
+      <ol class="steps-list">
+        <li>
+          <div class="step-heading">Tune to Concert Pitch</div>
+          <p>
+            Never adjust a guitar cold or slacked. The 100–120 lbs of string tension flexes the neck into its playing geometry. Everything begins with tuned strings.
+          </p>
+        </li>
+        <li>
+          <div class="step-heading">T: Truss Rod (Relief)</div>
+          <p>
+            Capo fret 1. Hold down the low E string where the neck joins the body (fret 17 on Fenders). Inspect the clearance between the bottom of the string and top of the <strong>7th or 8th fret</strong>.
+          </p>
+          <p>
+            Target for hyper-low action: <code>0.004" to 0.006" (0.10–0.15mm)</code> — roughly the thickness of a high-e string or a business card. If it's a canyon, tighten the rod clockwise.
+          </p>
+        </li>
+        <li>
+          <div class="step-heading">R: Radius & Action (Bridge Height)</div>
+          <p>
+            Lower the bridge until notes start to buzz slightly on medium-hard picking between frets 7 and 12, then raise it just enough to clear. Use an understring radius gauge to ensure your middle saddles (D, G) are arced identically to your outside saddles (E, e).
+          </p>
+        </li>
+        <li>
+          <div class="step-heading">A: Action at the Nut (Slot Depth)</div>
+          <p>
+            Hold the string down at the <strong>3rd fret</strong>. Look at the clearance over the <strong>1st fret</strong>: there should only be a microscopic whisper of light (<code>0.003" to 0.005"</code>). If you see a large gap, use gauged nut files with a back-angle toward the tuners to deepen the slot.
+          </p>
+        </li>
+        <li>
+          <div class="step-heading">I & N: Intonation & Testing</div>
+          <p>
+            Set saddle position so the 12th fret harmonic matches the fretted 12th note exactly. Check for choke on whole-step bends at the 14th, 15th, and 17th frets.
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- SECTION 5: The Jaguar Buzz-Cure Blueprint -->
+    <section>
+      <h2><span>05</span> The Jaguar "Buzz-Cure" Blueprint</h2>
+      <p>
+        Here is the exact battle-tested recipe used by luthier specialists to transform a rattling Jaguar into a rock-solid machine:
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-title emerald">1. The 0.5° Neck Pocket Shim</div>
+          <p>
+            Insert a full-contact angled shim (like StewMac's hardwood shims) into the body-side of the neck pocket. This tilts the neck back, allowing you to <strong>raise the bridge significantly</strong> while keeping ultra-low string action. This creates a steep break angle over the saddles!
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title cyan">2. Heavier String Gauges</div>
+          <p>
+            Do not run 9s on a 24" Jaguar. Upgrade to <strong>10.5–48</strong> or <strong>11–50</strong>. The increased tension stabilizes the rocking bridge and prevents string slippage.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title amber">3. Blue Loctite 242</div>
+          <p>
+            Jaguar vintage threaded-saddle height screws love to vibrate loose. Disassemble, apply a drop of removable <em>Blue Loctite</em> (never Red) to the threads, adjust to spec, and let dry.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title purple">4. Modern Bridge Upgrade</div>
+          <p>
+            If the vintage threaded rod saddles are hopeless, drop in a <strong>Staytrem</strong>, <strong>Mustang bridge</strong>, or <strong>Mastery M1</strong>. They feature fixed deep grooves and solid posts.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 6: The Stratocaster Saddle Mystery -->
+    <section>
+      <h2><span>06</span> What About Your Strats?</h2>
+      <p>
+        You mentioned your Stratocasters are nominal, and asked if the vintage saddles can only go so low.
+      </p>
+
+      <div class="card" style="margin-bottom: 1.5rem;">
+        <div class="card-title cyan">Why Strat Saddles "Bottom Out"</div>
+        <p>
+          On vintage 6-screw or 2-point Strat trems, each bent-steel or block saddle has two height grub screws. If you screw them all the way down and the saddle hits the baseplate before your action is low enough:
+        </p>
+        <ul style="padding-left: 1.25rem; color: #cbd5e1; margin-top: 0.5rem;">
+          <li><strong>The Neck Angle is Flat or Forward-Tilted:</strong> Adding a thin shim at the headstock end of the pocket (or turning Fender's Micro-Tilt screw 1/8th turn) will tilt the neck back and bring the strings closer to the body, instantly regaining saddle height adjustment range.</li>
+          <li><strong>Grub Screw Length:</strong> If the saddles are low and the long grub screws dig painfully into your picking palm, swap them for shorter 6mm/8mm stainless screws.</li>
+        </ul>
+      </div>
+
+      <div class="callout amber">
+        <div class="callout-title">Should You File Strat Nuts?</div>
+        <p>
+          <strong>Yes.</strong> If your Strats are factory stock, the nut slots are almost guaranteed to be 0.010" higher than they need to be. Trimming them down will give your Strats the same butter-like fretting feel as your Jazzmaster in the open positions.
+        </p>
+      </div>
+    </section>
+
+    <!-- SECTION 7: Target Tolerances Reference Table -->
+    <section>
+      <h2><span>07</span> Golden Tolerance Reference Specs</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Parameter</th>
+              <th>Factory Fender Spec</th>
+              <th>Master "Slammed" Spec</th>
+              <th>How to Measure</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Neck Relief</strong></td>
+              <td>0.010"–0.012" (0.25mm)</td>
+              <td><code>0.004"–0.006" (0.10mm)</code></td>
+              <td>Capo 1st fret, fret 17th, feeler gauge at 8th fret crown.</td>
+            </tr>
+            <tr>
+              <td><strong>Low E Nut Slot</strong></td>
+              <td>0.020"–0.024" (0.55mm)</td>
+              <td><code>0.012"–0.014" (0.33mm)</code></td>
+              <td>Open string gap over 1st fret crown.</td>
+            </tr>
+            <tr>
+              <td><strong>High E Nut Slot</strong></td>
+              <td>0.016"–0.018" (0.43mm)</td>
+              <td><code>0.008"–0.010" (0.22mm)</code></td>
+              <td>Open string gap over 1st fret crown.</td>
+            </tr>
+            <tr>
+              <td><strong>12th Fret Action (Bass)</strong></td>
+              <td>4/64" (1.6mm)</td>
+              <td><code>3/64" (1.19mm)</code></td>
+              <td>Distance from top of 12th fret to bottom of string.</td>
+            </tr>
+            <tr>
+              <td><strong>12th Fret Action (Treble)</strong></td>
+              <td>3.5/64" (1.4mm)</td>
+              <td><code>2.5/64" (0.99mm)</code></td>
+              <td>Distance from top of 12th fret to bottom of string.</td>
+            </tr>
+            <tr>
+              <td><strong>Offset Break Angle</strong></td>
+              <td>6°–8° (Stock unshimmed)</td>
+              <td><code>12°–15° (Shimmed)</code></td>
+              <td>Angle of string from bridge saddle to tremolo plate.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>VoltHarmonic Bench Guide &bull; Fender Offset & Vintage Geometry Architecture &bull; Generated for Studio & Luthier Reference</p>
+    </footer>
+
+  </div>
+</body>
+</html>

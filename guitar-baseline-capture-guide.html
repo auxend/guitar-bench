@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Capture a Guitar's Baseline: The DNA Fingerprint Guide</title>
+  <style>
+    :root {
+      --bg-primary: #0b0f17;
+      --bg-secondary: #131b26;
+      --bg-card: #1a2332;
+      --bg-card-hover: #222f42;
+      --border-color: #273549;
+      --border-accent: rgba(56, 189, 248, 0.35);
+      --text-main: #f1f5f9;
+      --text-muted: #94a3b8;
+      --accent-cyan: #38bdf8;
+      --accent-amber: #fbbf24;
+      --accent-emerald: #34d399;
+      --accent-rose: #f43f5e;
+      --accent-purple: #c084fc;
+      --tag-bg: rgba(56, 189, 248, 0.12);
+      --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      line-height: 1.65;
+      padding: 3rem 1.25rem;
+      display: flex;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 960px;
+      width: 100%;
+    }
+
+    /* Header */
+    header {
+      margin-bottom: 3.5rem;
+      text-align: center;
+      padding: 2.75rem 1.5rem;
+      background: radial-gradient(circle at top, rgba(56, 189, 248, 0.14) 0%, rgba(19, 27, 38, 0.4) 70%, transparent 100%);
+      border-radius: 20px;
+      border: 1px solid var(--border-color);
+      box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+    }
+
+    .badges {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.25rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.25rem 0.75rem;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      border-radius: 9999px;
+      background: var(--tag-bg);
+      color: var(--accent-cyan);
+      border: 1px solid var(--border-accent);
+    }
+
+    .badge-amber {
+      background: rgba(251, 191, 36, 0.12);
+      color: var(--accent-amber);
+      border-color: rgba(251, 191, 36, 0.35);
+    }
+
+    .badge-emerald {
+      background: rgba(52, 211, 153, 0.12);
+      color: var(--accent-emerald);
+      border-color: rgba(52, 211, 153, 0.35);
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      line-height: 1.2;
+      margin-bottom: 1rem;
+      background: linear-gradient(135deg, #ffffff 40%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .subtitle {
+      color: var(--text-muted);
+      font-size: 1.15rem;
+      max-width: 720px;
+      margin: 0 auto;
+    }
+
+    section {
+      margin-bottom: 3.5rem;
+    }
+
+    h2 {
+      font-size: 1.65rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      color: #ffffff;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 0.6rem;
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #e2e8f0;
+      margin-top: 1.5rem;
+      margin-bottom: 0.75rem;
+    }
+
+    p {
+      margin-bottom: 1.15rem;
+      color: #cbd5e1;
+    }
+
+    strong {
+      color: #ffffff;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.25rem;
+      margin: 1.5rem 0;
+    }
+
+    .card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+
+    .card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .card-title.cyan { color: var(--accent-cyan); }
+    .card-title.amber { color: var(--accent-amber); }
+    .card-title.emerald { color: var(--accent-emerald); }
+    .card-title.rose { color: var(--accent-rose); }
+    .card-title.purple { color: var(--accent-purple); }
+
+    .callout {
+      border-left: 4px solid var(--accent-cyan);
+      background: rgba(56, 189, 248, 0.07);
+      border-radius: 0 10px 10px 0;
+      padding: 1.25rem 1.5rem;
+      margin: 1.5rem 0;
+      border-top: 1px solid rgba(56, 189, 248, 0.15);
+      border-right: 1px solid rgba(56, 189, 248, 0.15);
+      border-bottom: 1px solid rgba(56, 189, 248, 0.15);
+    }
+
+    .callout.amber {
+      border-left-color: var(--accent-amber);
+      background: rgba(251, 191, 36, 0.07);
+      border-color: rgba(251, 191, 36, 0.15);
+      border-left: 4px solid var(--accent-amber);
+    }
+
+    .callout.emerald {
+      border-left-color: var(--accent-emerald);
+      background: rgba(52, 211, 153, 0.07);
+      border-color: rgba(52, 211, 153, 0.15);
+      border-left: 4px solid var(--accent-emerald);
+    }
+
+    .callout-title {
+      font-weight: 700;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .callout.amber .callout-title { color: var(--accent-amber); }
+    .callout.cyan .callout-title { color: var(--accent-cyan); }
+    .callout.emerald .callout-title { color: var(--accent-emerald); }
+
+    .table-container {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      background: var(--bg-card);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 0.92rem;
+    }
+
+    th, td {
+      padding: 0.9rem 1.15rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    th {
+      background: var(--bg-secondary);
+      color: var(--accent-cyan);
+      font-weight: 600;
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    tr:hover td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    code {
+      font-family: var(--font-mono);
+      background: rgba(255, 255, 255, 0.08);
+      color: var(--accent-cyan);
+      padding: 0.15rem 0.4rem;
+      border-radius: 4px;
+      font-size: 0.85em;
+    }
+
+    .diagram-container {
+      background: #0f1622;
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin: 1.5rem 0;
+    }
+
+    .diagram-title {
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      letter-spacing: 0.05em;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    svg text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+    }
+
+    .steps-list {
+      list-style: none;
+      counter-reset: step-counter;
+      margin: 1.5rem 0;
+    }
+
+    .steps-list li {
+      counter-increment: step-counter;
+      margin-bottom: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem 1.25rem 4rem;
+      position: relative;
+    }
+
+    .steps-list li::before {
+      content: counter(step-counter);
+      position: absolute;
+      left: 1.25rem;
+      top: 1.25rem;
+      width: 2rem;
+      height: 2rem;
+      background: var(--accent-cyan);
+      color: #0b0f17;
+      font-weight: 800;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+    }
+
+    .step-heading {
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 0.5rem;
+    }
+
+    footer {
+      text-align: center;
+      padding-top: 3rem;
+      border-top: 1px solid var(--border-color);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <!-- Header -->
+    <header>
+      <div class="badges">
+        <span class="badge">Luthier Bench Protocol</span>
+        <span class="badge badge-emerald">Reverse-Engineering</span>
+        <span class="badge badge-amber">DNA Baseline</span>
+      </div>
+      <h1>Capturing a Guitar's Baseline</h1>
+      <p class="subtitle">
+        When an instrument feels like pure magic, don't let seasonal changes or bad maintenance erase it. Here is the exact blueprint for documenting your "Holy Grail" setup.
+      </p>
+    </header>
+
+    <!-- SECTION 1: Why Capture a Baseline? -->
+    <section>
+      <h2><span>01</span> The Philosophy of the "DNA Baseline"</h2>
+      <p>
+        Guitars are made of organic wood and under 100+ lbs of perpetual tension. When winter dry air or summer humidity hits, the neck moves. If you send it to an unfamiliar tech, they might "reset it to factory standard" and ruin the magic.
+      </p>
+      <p>
+        By capturing your guitar's baseline measurements, you achieve three things:
+      </p>
+
+      <div class="grid">
+        <div class="card">
+          <div class="card-title emerald">🛡️ Seasonal Immunity</div>
+          <p>
+            When seasonal humidity changes bow your neck, a 5-minute 1/8th turn of the truss rod brings it exactly back to your documented baseline.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title cyan">🧬 Cloning Magic</div>
+          <p>
+            You can take the exact numbers from your "slammed" Jazzmaster and apply them directly to your Jaguar or Strats to give your entire collection the same effortless hand-feel.
+          </p>
+        </div>
+        <div class="card">
+          <div class="card-title amber">🔧 Tech Runbook</div>
+          <p>
+            Hand your tech the spec sheet: <em>"Here is my exact relief, nut clearance, and 12th-fret action. Match these numbers."</em> Zero room for guesswork.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECTION 2: The 7 Critical Parameters to Measure -->
+    <section>
+      <h2><span>02</span> The 7 Golden Measurements to Capture</h2>
+      <p>
+        Set the guitar in playing position (not laid flat on its back, as gravity pulls the neck into artificial relief). Record these 7 parameters:
+      </p>
+
+      <div class="diagram-container">
+        <div class="diagram-title">
+          <span>Figure 1: Measurement Points Along the Neck Plane</span>
+          <span>BENCH PROTOCOL</span>
+        </div>
+        <svg viewBox="0 0 850 190" width="100%" height="100%" xmlns="http://www.w3.org/2000/svg">
+          <!-- Neck line -->
+          <rect x="40" y="100" width="760" height="20" rx="3" fill="#1e293b" stroke="#334155"/>
+          <!-- Nut -->
+          <rect x="50" y="65" width="14" height="40" fill="#f8fafc" stroke="#94a3b8"/>
+          <!-- Bridge -->
+          <rect x="760" y="60" width="14" height="45" fill="#38bdf8"/>
+          <!-- Frets -->
+          <line x1="120" y1="90" x2="120" y2="100" stroke="#94a3b8" stroke-width="2"/>
+          <line x1="320" y1="90" x2="320" y2="100" stroke="#94a3b8" stroke-width="2"/>
+          <line x1="480" y1="90" x2="480" y2="100" stroke="#94a3b8" stroke-width="2"/>
+          <line x1="640" y1="90" x2="640" y2="100" stroke="#94a3b8" stroke-width="2"/>
+          <line x1="720" y1="90" x2="720" y2="100" stroke="#94a3b8" stroke-width="2"/>
+
+          <!-- String line -->
+          <path d="M 57 78 Q 400 70 760 72" fill="none" stroke="#e2e8f0" stroke-width="2"/>
+
+          <!-- Indicator 1: Nut Slot -->
+          <circle cx="120" cy="77" r="7" fill="#fbbf24"/>
+          <text x="75" y="48" fill="#fbbf24" font-weight="bold">#1 Nut Gap (Fret 1)</text>
+          <line x1="120" y1="55" x2="120" y2="70" stroke="#fbbf24" stroke-width="1.5"/>
+
+          <!-- Indicator 2: Relief -->
+          <circle cx="320" cy="76" r="7" fill="#38bdf8"/>
+          <text x="260" y="32" fill="#38bdf8" font-weight="bold">#2 Relief (Fret 7/8)</text>
+          <line x1="320" y1="40" x2="320" y2="69" stroke="#38bdf8" stroke-width="1.5"/>
+
+          <!-- Indicator 3: Action 12th -->
+          <circle cx="480" cy="74" r="7" fill="#34d399"/>
+          <text x="430" y="32" fill="#34d399" font-weight="bold">#3 Action (Fret 12)</text>
+          <line x1="480" y1="40" x2="480" y2="67" stroke="#34d399" stroke-width="1.5"/>
+
+          <!-- Indicator 4: Action 17th -->
+          <circle cx="640" cy="73" r="7" fill="#c084fc"/>
+          <text x="590" y="48" fill="#c084fc" font-weight="bold">#4 Action (Fret 17)</text>
+          <line x1="640" y1="55" x2="640" y2="66" stroke="#c084fc" stroke-width="1.5"/>
+
+          <!-- Indicator 5: Bridge Height -->
+          <circle cx="760" cy="72" r="7" fill="#f43f5e"/>
+          <text x="715" y="32" fill="#f43f5e" font-weight="bold">#5 Bridge Height</text>
+          <line x1="760" y1="40" x2="760" y2="65" stroke="#f43f5e" stroke-width="1.5"/>
+        </svg>
+      </div>
+
+      <ol class="steps-list">
+        <li>
+          <div class="step-heading">1. String Brand, Gauge & Concert Pitch</div>
+          <p>
+            Everything starts with tension. A set of <code>10–46</code> exerts ~103 lbs of pull; a set of <code>11–48</code> exerts ~125 lbs. Changing gauges changes the neck relief and break angle immediately. Note the exact gauge and tuning.
+          </p>
+        </li>
+        <li>
+          <div class="step-heading">2. Neck Relief at the 8th Fret</div>
+          <p>
+            Put a capo on the <strong>1st fret</strong>. Fret the Low E string with your finger at the <strong>17th fret</strong> (where the neck meets the body). Measure the gap between the underside of the string and the top of the 8th fret wire.
+          </p>
+          <p>
+            <em>Pro tool:</em> Feeler gauge (e.g. <code>.004"</code>, <code>.006"</code>, <code>.010"</code>).<br>
+            <em>Household check:</em> Printer paper = <code>~.004"</code>; standard business card = <code>~.012"</code>.
+          </p>
+        </li>
+        <li>
+          <div class="step-heading">3. Nut Slot Clearance (Open & 3rd Fret Tap)</div>
+          <p>
+            <strong>Test A (The 3rd Fret Tap Test):</strong> Fret the string between the 2nd and 3rd fret. Tap the string above the 1st fret crown. Look for a microscopic whisper of daylight (<code>.003"–.005"</code>). If it's silent with zero movement, it's touching; if it has a big click, it's high.
+          </p>
+          <p>
+            <strong>Test B (Open Gap):</strong> Measure the open string gap over the 1st fret crown for both Low E and High E (e.g. <code>.014"</code> Low E; <code>.009"</code> High E).
+          </p>
+        </li>
+        <li>
+          <div class="step-heading">4. Action Height at the 12th & 17th Frets</div>
+          <p>
+            With the guitar tuned to pitch in playing position, measure from the top of the fret wire to the bottom of the string:
+          </p>
+          <p>
+            - <strong>12th Fret Low E & High E</strong> (Standard: 4/64" bass, 3/64" treble; Ultra-Low: 3/64" bass, 2/64" treble).<br>
+            - <strong>17th Fret Low E & High E</strong> (Tells you if the neck pocket angle is correct or if action is rising).
+          </p>
+        </li>
+        <li>
+          <div class="step-heading">5. Bridge Elevation & Saddle Arc</div>
+          <p>
+            Measure the physical distance from the body/pickguard to the bottom of the bridge plate. Use an understring radius gauge to check if the saddle curve matches the fingerboard (7.25", 9.5", or 12").
+          </p>
+        </li>
+        <li>
+          <div class="step-heading">6. Neck Pocket Tilt & Shim Details</div>
+          <p>
+            Look at the neck pocket joint. Is the neck dead flat with the body, or is there an angled wedge shim (0.5° or 1.0°)? Note the presence and orientation of any shims.
+          </p>
+        </li>
+        <li>
+          <div class="step-heading">7. Pickup Heights (Magnetic Pull Check)</div>
+          <p>
+            Depress the strings at the final fret (21st or 22nd). Measure the gap from the top of the pole pieces to the bottom of the string for both Neck and Bridge pickups. (If pickups are too close, magnets pull strings out of tune and choke sustain).
+          </p>
+        </li>
+      </ol>
+    </section>
+
+    <!-- SECTION 3: The Tooling Kit (Pro vs Emergency) -->
+    <section>
+      <h2><span>03</span> The Tooling Kit: Pro Bench vs. Emergency Hacks</h2>
+      <div class="table-container">
+        <table>
+          <thead>
+            <tr>
+              <th>Target Parameter</th>
+              <th>Pro Bench Tool</th>
+              <th>Emergency Household Substitute</th>
+              <th>Typical "Magic" Value</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Neck Relief (Fret 8)</strong></td>
+              <td>Automotive feeler gauge</td>
+              <td>1 sheet 20lb printer paper (<code>0.0038"</code>)</td>
+              <td><code>0.004"–0.006"</code></td>
+            </tr>
+            <tr>
+              <td><strong>Nut Clearance (Fret 1)</strong></td>
+              <td>Feeler gauges (<code>.008"–.014"</code>)</td>
+              <td>3rd-fret tap test ("whisper of daylight")</td>
+              <td><code>0.012" E / 0.009" e</code></td>
+            </tr>
+            <tr>
+              <td><strong>Action (Fret 12)</strong></td>
+              <td>Precision steel action ruler (64ths/mm)</td>
+              <td>US Dime = <code>1.35mm (~3.5/64")</code>; Quarter = <code>1.75mm (~4.5/64")</code></td>
+              <td><code>3/64" (1.19mm) Bass</code><br><code>2.5/64" (0.99mm) Treble</code></td>
+            </tr>
+            <tr>
+              <td><strong>Fingerboard Radius</strong></td>
+              <td>Understring radius gauge</td>
+              <td>Printable cardstock radius templates</td>
+              <td>9.5" or 7.25"</td>
+            </tr>
+            <tr>
+              <td><strong>Neck Pocket Angle</strong></td>
+              <td>Digital angle gauge or StewMac stamped shim</td>
+              <td>Business card sliver (<code>~0.25°</code>)</td>
+              <td><code>0.5° full pocket</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- SECTION 4: Copy-Paste Baseline Card -->
+    <section>
+      <h2><span>04</span> Your Guitar's Baseline Spec Sheet</h2>
+      <p>
+        Copy this format into your bench notes or workspace OpenSpec to preserve your Jazzmaster's DNA forever:
+      </p>
+
+      <div class="card" style="background: #0d141f; border-color: var(--accent-cyan);">
+        <pre style="color: var(--accent-cyan); font-family: var(--font-mono); font-size: 0.88rem; line-height: 1.5; overflow-x: auto;">
+# -------------------------------------------------------------
+# GUITAR BASELINE DNA SHEET
+# -------------------------------------------------------------
+Guitar: "My Jazzmaster (Golden Reference)"
+Date Documented: 2026-10-02
+Scale Length: 25.5"
+Tuning: E Standard (A=440Hz)
+String Set: D'Addario EXL110 (10-46) or (11-48)
+
+GEOMETRY:
+- Relief at 8th Fret:   0.004" (1 sheet paper clearance)
+- 1st Fret Nut Gap (E): 0.013" (Low E)
+- 1st Fret Nut Gap (e): 0.009" (High E)
+- 12th Fret Action (E): 3.0/64" (1.19mm)
+- 12th Fret Action (e): 2.5/64" (0.99mm)
+- 17th Fret Action (E): 3.2/64"
+- Neck Shim Angle:      0.0° (Flat) or 0.5°
+- Bridge Post Height:   Slammed (~1.5mm above pickguard)
+- Saddle Type:          Mustang / Threaded / Staytrem
+
+ELECTRONICS:
+- Neck Pickup Gap (bass/treble):   3.0mm / 2.5mm
+- Bridge Pickup Gap (bass/treble): 2.5mm / 2.0mm
+# -------------------------------------------------------------</pre>
+      </div>
+
+      <div class="callout emerald" style="margin-top: 1.5rem;">
+        <div class="callout-title">The Golden Takeaway</div>
+        <p>
+          When you find a guitar that plays like a dream, the magic isn't a mystery—it's simply a collection of 5 to 7 specific mechanical clearances. Once you write them down, you own that feel forever.
+        </p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+      <p>VoltHarmonic Luthier Bench System &bull; DNA Baseline Protocol &bull; Saved to Workspace</p>
+    </footer>
+
+  </div>
+</body>
+</html>
