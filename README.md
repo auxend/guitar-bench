@@ -1,4 +1,4 @@
-# Volt Guitar Bench Lab
+# Auxend's Guitar Bench Lab
 
 An interactive workbench app and luthier knowledge base for documenting, preserving, comparing, and reverse-engineering electric guitar setups—specializing in Fender Offsets (Jazzmaster, Jaguar) and Stratocasters.
 
@@ -6,9 +6,10 @@ An interactive workbench app and luthier knowledge base for documenting, preserv
 
 ## 🚀 Quick Start
 
-Open **`index.html`** in any web browser (Chrome, Safari, Firefox). 
+Open **`index.html`** in any web browser (Chrome, Edge, Brave, Safari, Firefox). 
 - **100% Offline-First:** Zero dependencies, no npm install, no node server required.
-- **Auto-Persisting:** Saves all your guitar profiles directly to browser `localStorage`.
+- **Direct Disk Sync:** Link `fleet.json` via the File System Access API for immediate two-way git syncing.
+- **Auto-Persisting:** Saves all your guitar profiles directly to browser `localStorage` and `fleet.json`.
 - **JSON Backup:** One-click Export and Import to preserve your collection's DNA.
 
 ---
@@ -17,8 +18,9 @@ Open **`index.html`** in any web browser (Chrome, Safari, Firefox).
 
 ```
 guitar-bench/
-├── index.html                           # The unified Guitar Bench Lab Web App
-├── guitar-bench-app.html                # App alias
+├── index.html                           # The unified Auxend's Guitar Bench Lab Web App
+├── guitar-bench-app.html                # Standalone app alias
+├── fleet.json                           # Tracked guitar setup database (auto-syncable)
 ├── fender-offset-setup-guide.html       # Visual guide: Offset Break Angles & T-R-A-I-N Protocol
 ├── guitar-baseline-capture-guide.html   # Visual guide: 7 Measurements for Holy Grail Guitars
 ├── openspec.md                          # OpenSpec Architecture, vector formulas & data schema
